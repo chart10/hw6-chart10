@@ -3,9 +3,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/style.css" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <p>Christian's favorite books are...</p>
+    <ol>
+      {%for i in range(0, len)%} {% if i == 3 %}
+      <li class="fav">{{books[i]}}<img src="{{covers[i]}}" height="500" /></li>
+
+      {% else %}
+      <li>{{books[i]}}<img src="{{covers[i]}}" height="500" /></li>
+
+      {% endif %} {%endfor%}
+    </ol>
+  </body>
 </html>
+<!-- <img src="{{covers[i]}}" width="300" /> -->
