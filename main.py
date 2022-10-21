@@ -1,6 +1,7 @@
 # Christian Hart 001-68-3628
 
 import flask
+from requests import request
 from googlebooks import get_books
 
 API_KEY = "AIzaSyB9rj90xdvrcoqC3HrAc1kZME83TX_P2Fk"
@@ -17,7 +18,7 @@ covers = ["https://i.guim.co.uk/img/media/650851a40923295ad181cbf199e4e1ffdf1b3c
           "https://pictures.abebooks.com/inventory/30789968188.jpg"]
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
 
     dynoBooks = []
@@ -29,13 +30,26 @@ def index():
         dynoCovers.append(entry[1])
         i += 1
 
-    print(dynoBooks)
-    print(dynoCovers)
+    usersearch = []
+    usersearch = flask.request.args.get('search')
+    print("\n\n\n")
+    print(usersearch)
+    print("\n\n\n")
+
+    userresults = get_books(usersearch)
+    print("\n\n\n")
+    print(userresults)
+    print("\n\n\n")
+
+    #bookSearch = get_books(userQuery)
     return flask.render_template(
         "index.html",
         dynoBooks=dynoBooks,
         len=len(dynoBooks),
-        dynoCovers=dynoCovers
+        dynoCovers=dynoCovers,
+        books=books,
+        covers=covers,
+        userresults=userresults
     )
 
 

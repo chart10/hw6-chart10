@@ -1,30 +1,66 @@
 /* Christian Hart 001-68-3628 */
 
 body {
-    background-color: #880e4f;
-    color: ivory;
-    font-family: Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px 8px black;
+    background-color: #F4D35E;
+    color: #0D3B66;
+    font-family: 'Patua One', cursive;
+    
 }
 p {
     font-size: 20px;
-    padding: 5px;
-    position: fixed;
-    top: 5px;
+    padding: 10px;
+    margin: 20px 0;
 }
+p.title {
+    font-size: 20px;
+    padding: 10px;
+    background-color: #F95738;
+    border: #EE964B solid 20px;
+    margin: 20px 0;
+    /* position: fixed;
+    top: 5px; */
+    /* box-shadow: 2px 2px 8px black; */
+}
+span {
+    background-color: #F95738;
+    border: #EE964B solid 20px;
+    padding: 10px;
+}
+
 ol {
     display: flex;
 }
+ul {
+    list-style-type: none;
+}
 li {
     flex-flow: row wrap;
-    font-size: 24px;
+    /*background-color: #4B5842;*/
+    font-size: 16px;
     padding: 20px;
-    margin: 50px;
+    margin: 25px 5px;
+    transition: transform 0.5s; 
+    text-align: center;
+
+}
+
+li:hover {
+    flex-flow: row wrap;
+    /*background-color: #4B5842;*/
+    font-size: 16px;
+    padding: 20px;
+    margin: 25px 5px;
+    transform: scale(1.1); 
+    text-align: center;
 }
 img {
-    margin-top: 10px;
+    margin: 0 20px;
     box-shadow: 2px 2px 8px black;
 }
 .fav {
-    color: greenyellow;
+    color: #A4508B;
+}
+form {
+    margin: 20px;
+    padding: 10px;
 }

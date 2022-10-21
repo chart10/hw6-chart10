@@ -26,6 +26,3 @@ def get_books(book):
     image = response_json["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
 
     return [title, image]
-
-
-print(get_books("The Stranger"))
