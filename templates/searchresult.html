@@ -15,9 +15,9 @@
     <p><span>Christian's favorite books are...</span></p>
     <ol>
       {%for i in range(0, len)%} {% if i == 3 %}
-      <li>
-        <img src="{{covers[i]}}" height="200" /><br />
-        <p class="title" id="fav">{{books[i]}}</p>
+      <li class="fav">
+        <img src="{{covers[i]}}" height="200" />
+        <p class="title">{{books[i]}}</p>
       </li>
 
       {% else %}
@@ -37,13 +37,13 @@
       <input type="submit" value="submit" />
     </form>
     <br />
-    <ul>
-      {%if searchvalue != None%} {%for i in range(0, 5)%}
+    <ul style="list-style-type: none">
+      {%for i in range(0, 5)%}
       <li>
-        <img src="{{userresults[i][1]}}" height="200" /><br />
-        <p class="title">{{userresults[i][0]}}</p>
+        <img src="{{userresults[1]}}" height="200" /><br />
+        <p><span>{{userresults[0]}}</span></p>
       </li>
-      {%endfor%} {% endif %}
+      {%endfor%}
     </ul>
   </body>
 </html>
