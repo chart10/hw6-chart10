@@ -27,12 +27,13 @@ span {
     padding: 10px;
 }
 
-ol {
+ol, ul {
     display: flex;
 }
 ul {
     list-style-type: none;
 }
+
 li {
     flex-flow: row wrap;
     /*background-color: #4B5842;*/
@@ -57,8 +58,9 @@ img {
     margin: 0 20px;
     box-shadow: 2px 2px 8px black;
 }
-.fav {
-    color: #A4508B;
+#fav {
+    color: yellowgreen;
+    text-shadow: 2px 2px 8px black;
 }
 form {
     margin: 20px;

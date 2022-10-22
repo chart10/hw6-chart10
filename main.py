@@ -2,13 +2,13 @@
 
 import flask
 from requests import request
-from googlebooks import get_books
+from googlebooks import get_books, get_first_five
 
 API_KEY = "AIzaSyB9rj90xdvrcoqC3HrAc1kZME83TX_P2Fk"
 
 app = flask.Flask(__name__)
 
-books = ["The+Stranger", "Dune", "The+Bell+Jar",
+books = ["The Stranger", "Dune", "The Bell Jar",
          "House of Leaves", "A Scanner Darkly", "Zorba the Greek"]
 covers = ["https://i.guim.co.uk/img/media/650851a40923295ad181cbf199e4e1ffdf1b3cfb/0_0_800_1322/master/800.jpg?width=700&quality=85&auto=format&fit=max&s=d418e1d020be3746920996d08a0be5dd",
           "https://i.pinimg.com/474x/87/06/1b/87061b3f7604fe7a5ac38b28c6b64430.jpg",
@@ -21,34 +21,30 @@ covers = ["https://i.guim.co.uk/img/media/650851a40923295ad181cbf199e4e1ffdf1b3c
 @app.route("/", methods=["GET"])
 def index():
 
-    dynoBooks = []
-    dynoCovers = []
-    i = 0
-    for book in books:
-        entry = get_books(book)
-        dynoBooks.append(entry[0])
-        dynoCovers.append(entry[1])
-        i += 1
+    # dynoBooks = []
+    # dynoCovers = []
+    # i = 0
+    # for book in books:
+    #     entry = get_books(book)
+    #     dynoBooks.append(entry[0])
+    #     dynoCovers.append(entry[1])
+    #     i += 1
 
-    usersearch = []
-    usersearch = flask.request.args.get('search')
-    print("\n\n\n")
-    print(usersearch)
-    print("\n\n\n")
+    # if flask.request.args.get('search') == None:
 
-    userresults = get_books(usersearch)
-    print("\n\n\n")
-    print(userresults)
-    print("\n\n\n")
+    searchvalue = flask.request.args.get('search')
+    userresults = []
+    if searchvalue != None:
+        userresults = (get_first_five(searchvalue))
 
-    #bookSearch = get_books(userQuery)
     return flask.render_template(
         "index.html",
-        dynoBooks=dynoBooks,
-        len=len(dynoBooks),
-        dynoCovers=dynoCovers,
+        # dynoBooks=dynoBooks,
+        len=len(books),
+        # dynoCovers=dynoCovers,
         books=books,
         covers=covers,
+        searchvalue=searchvalue,
         userresults=userresults
     )
 
