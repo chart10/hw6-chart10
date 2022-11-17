@@ -17,6 +17,21 @@ covers = ["https://i.guim.co.uk/img/media/650851a40923295ad181cbf199e4e1ffdf1b3c
           "https://schicksalgemeinschaft.files.wordpress.com/2021/06/a-scanner-darkly-pepper.jpg",
           "https://pictures.abebooks.com/inventory/30789968188.jpg"]
 
+# TODO: Insert SQLAlchemy boiler plate code
+# TODO: Design database structure for FavoritesList:
+# Columns: ID(primary-key), title, subtitle, author, thumbnail
+# Rows: Entries in Favorites
+# TODO: Allow user to add entries to the database
+# add app.route() for this process
+# Generate new HTML form for each API query result (hidden inputs for
+#   each db field)
+# new route should redirect to mainpage when finished adding
+# Auto add my entries to the database
+# TODO: Allow user to remove entries from the database
+# add app.route() for favorite deletion
+# create HTML form for each favorite (button which starts
+#   deletion process)
+
 
 @app.route("/", methods=["GET"])
 def index():
