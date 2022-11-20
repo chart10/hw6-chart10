@@ -45,8 +45,14 @@ def get_first_five(book):
     while (i < 5):
 
         title = response_json["items"][i]["volumeInfo"]["title"]
-        cover = response_json["items"][i]["volumeInfo"]["imageLinks"]["thumbnail"]
-        topfive.append([title, cover])
+        author = response_json["items"][i]["volumeInfo"]["authors"][0]
+        google_id = response_json["items"][i]["id"]
+        print(google_id)
+        thumbnail = None
+        if 'imageLinks' in response_json["items"][i]["volumeInfo"]:
+            thumbnail = response_json["items"][i]["volumeInfo"]["imageLinks"]["thumbnail"]
+
+        topfive.append([title, author, google_id, thumbnail])
         i += 1
 
     return topfive

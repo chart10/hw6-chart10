@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from requests import request
 from googlebooks import get_books, get_first_five
 
-API_KEY = "AIzaSyB9rj90xdvrcoqC3HrAc1kZME83TX_P2Fk"
+# API_KEY = "AIzaSyB9rj90xdvrcoqC3HrAc1kZME83TX_P2Fk"
 
 app = flask.Flask(__name__)
 
@@ -23,8 +23,8 @@ db = SQLAlchemy(app)
 
 class FavList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    google_id = db.Column(db.String(80))
     title = db.Column(db.String(80))
-    subtitle = db.Column(db.String(80))
     author = db.Column(db.String(80))
     thumbnail = db.Column(db.String(80))
 
@@ -44,56 +44,79 @@ covers = ["https://i.guim.co.uk/img/media/650851a40923295ad181cbf199e4e1ffdf1b3c
           "https://pictures.abebooks.com/inventory/30789968188.jpg"]
 
 
-# add app.route() for this process
-# Generate new HTML form for each API query result (hidden inputs for
-#   each db field)
-# new route should redirect to mainpage when finished adding
-# Auto add my entries to the database
 # TODO: Allow user to remove entries from the database
 # add app.route() for favorite deletion
 # create HTML form for each favorite (button which starts
 #   deletion process)
+
+@app.route("/<int:id>", methods=["GET", "POST"])
+def remove_fav(id):
+    FavList.query.filter_by(id=id).delete()
+    db.session.commit()
+    return render_home()
+    # remove this variable from the db table
+    # redirect to mainpage
+
+
+def render_home(message=None):
+    searchvalue = flask.request.args.get('search')
+    userresults = []
+    if searchvalue != None:
+        userresults = (get_first_five(searchvalue))
+    favs = FavList.query.all()
+
+    return flask.render_template(
+        "index.html",
+        searchvalue=searchvalue,
+        userresults=userresults,
+        favs=favs,
+        message=message
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
 
     # TODO: Allow user to add entries to the database
+    # add app.route() for this process
+    # Generate new HTML form for each API query result (hidden inputs for
+    #   each db field)
+    # new route should redirect to mainpage when finished adding
+    # Auto add my entries to the database
+    message = None
     if flask.request.method == "POST":
         data = flask.request.form
         new_fav = FavList(
             title=data["title"],
-            subtitle=data["subtitle"],
             author=data["author"],
-            thumbnail=data["thumbnail"],
+            google_id=data["google_id"],
+            thumbnail=data["thumbnail"]
         )
 
-    # dynoBooks = []
-    # dynoCovers = []
-    # i = 0
-    # for book in books:
-    #     entry = get_books(book)
-    #     dynoBooks.append(entry[0])
-    #     dynoCovers.append(entry[1])
-    #     i += 1
+        if FavList.query.filter_by(google_id=new_fav.google_id).first() == None:
+            db.session.add(new_fav)
+            db.session.commit()
+        else:
+            message = "The book you chose is already in your favorites."
+        # for fav in FavList.query.all():
+        #     if new_fav.google_id == fav.google_id:
+        #         break
+        #     else:
+
+    dynoBooks = []
+    dynoCovers = []
+    i = 0
+    for book in books:
+        entry = get_books(book)
+        dynoBooks.append(entry[0])
+        dynoCovers.append(entry[1])
+        i += 1
 
     # if flask.request.args.get('search') == None:
 
-    searchvalue = flask.request.args.get('search')
-    userresults = []
-    if searchvalue != None:
-        userresults = (get_first_five(searchvalue))
+    return render_home(message)
 
-    return flask.render_template(
-        "index.html",
-        # dynoBooks=dynoBooks,
-        len=len(books),
-        # dynoCovers=dynoCovers,
-        books=books,
-        covers=covers,
-        searchvalue=searchvalue,
-        userresults=userresults
-    )
+# @app.route("/addFav")
 
 
 app.run(debug=True)
