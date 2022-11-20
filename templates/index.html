@@ -12,22 +12,21 @@
   </head>
   <body>
     <br />
-    <p><span>Christian's favorite books are...</span></p>
+    <p><span>Your favorite books...</span></p>
     <ol>
-      {%for i in range(0, len)%} {% if i == 3 %}
+      {%for fav in favs %}
       <li>
-        <img src="{{covers[i]}}" height="200" /><br />
-        <p class="title" id="fav">{{books[i]}}</p>
+        <img src="{{fav.thumbnail}}" height="200" />
+        <p class="title">{{fav.title}}</p>
+        <form action="/{{fav.id}}" method="POST">
+          <button type="submit" value="{{fav.id}}">Remove from Favs</button>
+        </form>
       </li>
-
-      {% else %}
-      <li>
-        <img src="{{covers[i]}}" height="200" />
-        <p class="title">{{books[i]}}</p>
-      </li>
-
-      {% endif %} {%endfor%}
+      {% endfor %}
     </ol>
+    {% if message != None %}
+    <p>{{message}}</p>
+    {% endif %}
     <p>
       <span>Search for one of <strong>your</strong> favorite books:</span>
     </p>
@@ -40,8 +39,35 @@
     <ul>
       {%if searchvalue != None%} {%for i in range(0, 5)%}
       <li>
-        <img src="{{userresults[i][1]}}" height="200" /><br />
+        <img src="{{userresults[i][3]}}" height="200" /><br />
         <p class="title">{{userresults[i][0]}}</p>
+        <form action="/" method="POST">
+          <input
+            type="text"
+            hidden
+            value="{{userresults[i][0]}}"
+            name="title"
+          />
+          <input
+            type="text"
+            value="{{userresults[i][1]}}"
+            hidden
+            name="author"
+          />
+          <input
+            type="text"
+            value="{{userresults[i][2]}}"
+            hidden
+            name="google_id"
+          />
+          <input
+            type="text"
+            value="{{userresults[i][3]}}"
+            hidden
+            name="thumbnail"
+          />
+          <button type="submit" value="Submit">Add to Favorites</button>
+        </form>
       </li>
       {%endfor%} {% endif %}
     </ul>
